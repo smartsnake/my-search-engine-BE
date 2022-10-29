@@ -3,3 +3,4 @@ djangorestframework~=3.14.0
 mongoengine~=0.24.2
 djongo~=1.3.6
 pymongo~=4.2.0
+environ
