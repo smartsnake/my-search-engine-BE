@@ -11,26 +11,32 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 import django
 
 import mongoengine
 import pymongo
 
-import environ
+from dotenv import load_dotenv
 
-env = environ.Env()
-# reading .env file
-environ.Env.read_env()
+load_dotenv()
+
+import os
+
+DATABASE_HOST = os.environ.get("DATABASE_HOST")
+DATABASE_USERNAME = os.environ.get("DATABASE_USERNAME")
+DATABASE_PASSWORD = os.environ.get("DATABASE_PASSWORD")
+DATABASE_AUTH = os.environ.get("DATABASE_AUTH")
+DATABASE_NAME = os.environ.get("DATABASE_NAME")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#*#p*6c$3=%lset^%6y&x&lb027e6txx28kurdb2_$62bzdjn9'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -82,12 +88,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'djangoProject.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-mongoengine.connect(db=env("DATABASE_NAME"), host=env("DATABASE_HOST"),
-                    username=env("DATABASE_USERNAME"), password=env("DATABASE_PASSWORD"),
-                    authentication_source=env("DATABASE_AUTH"))
+mongoengine.connect(db=DATABASE_NAME, host=DATABASE_HOST,
+                    username=DATABASE_USERNAME, password=DATABASE_PASSWORD,
+                    authentication_source=DATABASE_AUTH)
 # DATABASES = {
 #     'default': {
 #            'ENGINE': 'djongo',
@@ -114,7 +119,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -125,7 +129,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
