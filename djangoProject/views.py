@@ -4,6 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework import serializers
 from django.shortcuts import get_list_or_404
 from django.views.generic import ListView
+from rest_framework.response import Response
 
 from .models import Index
 
@@ -12,7 +13,6 @@ class WebsiteSerializer(serializers.Serializer):
     URL = serializers.CharField()
     Description = serializers.CharField()
     Title = serializers.CharField()
-    words = serializers.ListField()
 
 
 def get_all(request):
@@ -64,6 +64,9 @@ def search(request):
         sorted_websites = sorted(websiteList, key=lambda x: x.sortedValue, reverse=True)
 
         return JsonResponse(WebsiteSerializer(sorted_websites, many=True).data, safe=False)
+
+    print('Bad Request!')
+    return HttpResponse(status=400)
 
 
 def index(request):
